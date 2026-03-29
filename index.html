@@ -1,0 +1,2047 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dental Futuro — Distribuidora Odontológica · Brasília DF</title>
+  <meta name="description" content="Distribuidora odontológica em Brasília. Materiais, instrumentais e equipamentos para dentistas, clínicas e acadêmicos. Especialistas em radiologia odontológica.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    /* =============================================
+       DESIGN TOKENS
+    ============================================= */
+    :root {
+      --wine-deep:   #561C24;
+      --wine-mid:    #6D2932;
+      --sand-warm:   #C7B7A3;
+      --cream-light: #E8D8C4;
+      --white:       #FFFFFF;
+      --text-muted:  rgba(232, 216, 196, 0.55);
+      --font-serif:  'Cormorant Garamond', Georgia, serif;
+      --font-sans:   'Jost', system-ui, sans-serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --z-cursor: 9999;
+      --z-nav: 100;
+      --z-float: 50;
+      --z-badge: 20;
+      --z-overlay: 10;
+    }
+
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+    body {
+      font-family: var(--font-sans);
+      background: var(--wine-deep);
+      color: var(--cream-light);
+      overflow-x: hidden;
+      cursor: none;
+    }
+    body.mobile-device { cursor: auto; }
+    img { display: block; max-width: 100%; }
+    a { color: inherit; text-decoration: none; }
+    ul { list-style: none; }
+    button { cursor: pointer; font-family: var(--font-sans); }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* =============================================
+       CUSTOM CURSOR (desktop only)
+    ============================================= */
+    .cursor-dot,
+    .cursor-ring {
+      position: fixed;
+      top: 0; left: 0;
+      pointer-events: none;
+      z-index: var(--z-cursor);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.3s ease;
+    }
+    .cursor-dot {
+      width: 8px; height: 8px;
+      background: var(--wine-mid);
+      border: 2px solid var(--sand-warm);
+    }
+    .cursor-ring {
+      width: 36px; height: 36px;
+      border: 1.5px solid rgba(199, 183, 163, 0.6);
+      transition: width 0.25s var(--ease-out-expo),
+                  height 0.25s var(--ease-out-expo),
+                  border-color 0.25s ease;
+    }
+    .cursor-ring.hovered {
+      width: 56px; height: 56px;
+      border-color: var(--sand-warm);
+    }
+
+    /* =============================================
+       SCROLL REVEAL
+    ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(36px);
+      transition: opacity 0.8s var(--ease-out-expo),
+                  transform 0.8s var(--ease-out-expo);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* =============================================
+       TYPOGRAPHY HELPERS
+    ============================================= */
+    .section-label {
+      font-family: var(--font-sans);
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--sand-warm);
+      display: block;
+      margin-bottom: 1rem;
+    }
+    h1, h2, h3 { font-family: var(--font-serif); font-weight: 400; line-height: 1.15; }
+    em { font-style: italic; color: var(--sand-warm); }
+    p { line-height: 1.7; font-weight: 300; }
+
+    /* =============================================
+       BUTTONS
+    ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.85rem 2rem;
+      border-radius: 3px;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      transition: all 0.3s var(--ease-out-expo);
+      cursor: pointer;
+      min-height: 44px;
+      border: none;
+    }
+    .btn-primary {
+      background: var(--cream-light);
+      color: var(--wine-deep);
+    }
+    .btn-primary:hover { background: var(--white); transform: translateY(-2px); }
+    .btn-ghost {
+      background: transparent;
+      color: var(--cream-light);
+      border: 1.5px solid rgba(232, 216, 196, 0.45);
+    }
+    .btn-ghost:hover {
+      border-color: var(--sand-warm);
+      color: var(--sand-warm);
+      transform: translateY(-2px);
+    }
+    .btn-wine {
+      background: var(--wine-deep);
+      color: var(--cream-light);
+      border: 1.5px solid var(--wine-deep);
+    }
+    .btn-wine:hover { background: var(--wine-mid); transform: translateY(-2px); }
+
+    /* =============================================
+       NAV
+    ============================================= */
+    #nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: var(--z-nav);
+      padding: 1.5rem 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      transition: background 0.4s ease, backdrop-filter 0.4s ease,
+                  padding 0.4s ease, box-shadow 0.4s ease;
+    }
+    #nav.scrolled {
+      background: rgba(86, 28, 36, 0.96);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      padding: 1rem 4rem;
+      box-shadow: 0 1px 0 rgba(199, 183, 163, 0.1);
+    }
+    .nav-logo {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--cream-light);
+      letter-spacing: 0.02em;
+    }
+    .nav-logo span {
+      color: var(--sand-warm);
+    }
+    .nav-right { display: flex; align-items: center; gap: 2rem; }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a {
+      font-size: 0.8rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+    .nav-links a:hover { color: var(--cream-light); }
+    .nav-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.6rem 1.4rem;
+      border: 1.5px solid rgba(199, 183, 163, 0.5);
+      border-radius: 100px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--cream-light);
+      transition: all 0.3s ease;
+      min-height: 44px;
+    }
+    .nav-whatsapp:hover {
+      border-color: var(--sand-warm);
+      color: var(--sand-warm);
+      background: rgba(199, 183, 163, 0.08);
+    }
+    .nav-whatsapp svg { width: 16px; height: 16px; fill: currentColor; }
+
+    /* =============================================
+       HERO
+    ============================================= */
+    #hero {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: -20%;
+      background-image: url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1800&q=85&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      will-change: transform;
+    }
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(86,28,36,0.92) 0%, rgba(109,41,50,0.78) 100%);
+      z-index: 1;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      padding: 0 4rem;
+      max-width: 820px;
+      padding-top: 8rem;
+      padding-bottom: 6rem;
+    }
+    .hero-label {
+      font-size: 0.7rem;
+      font-weight: 500;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: var(--sand-warm);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .hero-label::before {
+      content: '';
+      display: block;
+      width: 40px;
+      height: 1px;
+      background: var(--sand-warm);
+    }
+    #hero h1 {
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      font-weight: 300;
+      color: var(--cream-light);
+      margin-bottom: 1.5rem;
+      line-height: 1.1;
+    }
+    #hero h1 em {
+      display: block;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--sand-warm);
+    }
+    .hero-sub {
+      font-size: 1rem;
+      font-weight: 300;
+      color: var(--text-muted);
+      max-width: 520px;
+      line-height: 1.75;
+      margin-bottom: 2.5rem;
+    }
+    .hero-ctas { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .scroll-indicator {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      font-size: 0.7rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .scroll-arrow {
+      width: 20px; height: 20px;
+      border-right: 1.5px solid var(--sand-warm);
+      border-bottom: 1.5px solid var(--sand-warm);
+      transform: rotate(45deg);
+      animation: scrollBounce 2s ease-in-out infinite;
+    }
+    @keyframes scrollBounce {
+      0%, 100% { transform: rotate(45deg) translateY(0); opacity: 0.6; }
+      50% { transform: rotate(45deg) translateY(6px); opacity: 1; }
+    }
+
+    /* =============================================
+       STATS STRIP
+    ============================================= */
+    #stats {
+      background: var(--wine-mid);
+      padding: 3rem 4rem;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+    }
+    .stat-item {
+      text-align: center;
+      padding: 1.5rem 2rem;
+      position: relative;
+    }
+    .stat-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: 0; top: 50%;
+      transform: translateY(-50%);
+      height: 60%;
+      width: 1px;
+      background: rgba(199, 183, 163, 0.2);
+    }
+    .stat-number {
+      font-family: var(--font-serif);
+      font-size: clamp(2.2rem, 3.5vw, 3.2rem);
+      font-weight: 300;
+      color: var(--cream-light);
+      line-height: 1;
+      display: block;
+    }
+    .stat-label {
+      font-family: var(--font-sans);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--sand-warm);
+      margin-top: 0.5rem;
+      display: block;
+    }
+
+    /* =============================================
+       ABOUT / OWNER
+    ============================================= */
+    #about {
+      padding: 7rem 4rem;
+      background: var(--wine-deep);
+    }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5rem;
+      align-items: center;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .owner-photo-wrap {
+      position: relative;
+    }
+    /* <!-- REPLACE: add owner photo file here: foto-dono.jpg --> */
+    .owner-photo {
+      width: 100%;
+      aspect-ratio: 4/5;
+      background-size: cover;
+      background-position: center top;
+      border-radius: 2px;
+      position: relative;
+    }
+    .owner-photo::before {
+      content: '';
+      position: absolute;
+      left: -16px;
+      top: 16px;
+      bottom: -16px;
+      width: 4px;
+      background: var(--wine-mid);
+      border-radius: 2px;
+    }
+    .owner-badge {
+      position: absolute;
+      bottom: -1.5rem;
+      left: 1.5rem;
+      background: var(--wine-deep);
+      border: 1px solid rgba(199, 183, 163, 0.2);
+      padding: 0.9rem 1.4rem;
+      border-radius: 4px;
+      z-index: var(--z-badge);
+    }
+    .owner-badge-num {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      color: var(--sand-warm);
+      line-height: 1;
+    }
+    .owner-badge-text {
+      font-size: 0.72rem;
+      letter-spacing: 0.08em;
+      color: var(--text-muted);
+      margin-top: 0.25rem;
+    }
+    .about-text h2 {
+      font-size: clamp(2rem, 3vw, 2.8rem);
+      color: var(--cream-light);
+      margin-bottom: 1.5rem;
+    }
+    .about-text p {
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      font-size: 0.95rem;
+    }
+    .about-bullets {
+      margin: 1.5rem 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+    .about-bullets li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--cream-light);
+      font-weight: 400;
+    }
+    .about-bullets li::before {
+      content: '';
+      display: block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--wine-mid);
+      border: 1.5px solid var(--sand-warm);
+      flex-shrink: 0;
+    }
+    .about-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--sand-warm);
+      font-size: 0.85rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      border-bottom: 1px solid rgba(199, 183, 163, 0.3);
+      padding-bottom: 2px;
+      transition: all 0.3s ease;
+      margin-top: 0.5rem;
+    }
+    .about-link:hover { border-color: var(--sand-warm); gap: 0.8rem; }
+
+    /* =============================================
+       PRODUCT CATEGORIES
+    ============================================= */
+    #products {
+      background: var(--wine-deep);
+      padding: 7rem 4rem;
+    }
+    .section-header {
+      max-width: 1200px;
+      margin: 0 auto 3.5rem;
+    }
+    .section-header h2 {
+      font-size: clamp(2rem, 3.5vw, 3rem);
+      color: var(--cream-light);
+    }
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .product-card {
+      position: relative;
+      aspect-ratio: 4/3;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .product-card-bg {
+      position: absolute;
+      inset: 0;
+      background-size: cover;
+      background-position: center;
+      transition: transform 0.6s var(--ease-out-expo);
+    }
+    .product-card-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(86, 28, 36, 0.72);
+      transition: background 0.3s ease;
+      z-index: 1;
+    }
+    .product-card:hover .product-card-overlay {
+      background: rgba(86, 28, 36, 0.52);
+    }
+    .product-card:hover .product-card-bg {
+      transform: scale(1.04);
+    }
+    .product-card-content {
+      position: relative;
+      z-index: 2;
+      padding: 2rem;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      transition: transform 0.3s ease;
+    }
+    .product-card:hover {
+      outline: 1px solid var(--sand-warm);
+      outline-offset: -1px;
+    }
+    .product-card-badge {
+      position: absolute;
+      top: 1.25rem;
+      right: 1.25rem;
+      background: var(--sand-warm);
+      color: var(--wine-deep);
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.7rem;
+      border-radius: 2px;
+      z-index: 3;
+    }
+    .product-card h3 {
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--cream-light);
+      margin-bottom: 0.5rem;
+    }
+    .product-card p {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+    .product-card-link {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      color: var(--sand-warm);
+      text-transform: uppercase;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.3s ease;
+    }
+    .product-card:hover .product-card-link { gap: 0.7rem; }
+
+    /* =============================================
+       RADIOLOGIA SECTION
+    ============================================= */
+    #radiologia {
+      background: var(--wine-mid);
+      position: relative;
+      overflow: hidden;
+    }
+    #radiologia::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 40px,
+        rgba(232, 216, 196, 0.025) 40px,
+        rgba(232, 216, 196, 0.025) 41px
+      );
+      pointer-events: none;
+    }
+    .radiologia-grid {
+      display: grid;
+      grid-template-columns: 45fr 55fr;
+      min-height: 600px;
+    }
+    .radiologia-text {
+      padding: 6rem 4rem 6rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      max-width: 600px;
+    }
+    .radiologia-text h2 {
+      font-size: clamp(1.9rem, 2.8vw, 2.6rem);
+      color: var(--cream-light);
+      margin-bottom: 1.25rem;
+    }
+    .radiologia-text > p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+    }
+    .radiologia-bullets {
+      display: flex;
+      flex-direction: column;
+      gap: 0.8rem;
+      margin-bottom: 2.5rem;
+    }
+    .radiologia-bullets li {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-size: 0.9rem;
+      color: var(--cream-light);
+    }
+    .radiologia-bullets li .chev {
+      color: var(--sand-warm);
+      font-style: normal;
+      font-weight: 600;
+      flex-shrink: 0;
+    }
+    .radiologia-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .radiologia-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      filter: brightness(0.75) saturate(0.9);
+    }
+    .radiologia-image-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(86, 28, 36, 0.45);
+      z-index: 1;
+    }
+    .radiologia-float-badge {
+      position: absolute;
+      top: 2rem;
+      left: 2rem;
+      z-index: 2;
+      background: rgba(86, 28, 36, 0.9);
+      border: 1px solid var(--sand-warm);
+      padding: 0.6rem 1.1rem;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--sand-warm);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    /* =============================================
+       ASSISTÊNCIA TÉCNICA
+    ============================================= */
+    #assistencia {
+      background: var(--wine-deep);
+      padding: 7rem 4rem;
+    }
+    .assistencia-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+      max-width: 900px;
+      margin: 3.5rem auto 0;
+    }
+    .service-box {
+      background: var(--wine-mid);
+      border: 1px solid rgba(199, 183, 163, 0.08);
+      border-radius: 4px;
+      padding: 2.5rem 2rem;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+      cursor: default;
+    }
+    .service-box:hover {
+      border-color: rgba(232, 216, 196, 0.3);
+      transform: translateY(-3px);
+    }
+    .service-icon {
+      width: 40px; height: 40px;
+      margin-bottom: 1.25rem;
+      color: var(--sand-warm);
+    }
+    .service-box h3 {
+      font-size: 1.25rem;
+      color: var(--cream-light);
+      margin-bottom: 0.6rem;
+    }
+    .service-box p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+    .assistencia-strip {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem 3.5rem;
+      margin-top: 4rem;
+      padding-top: 2.5rem;
+      border-top: 1px solid rgba(199, 183, 163, 0.12);
+    }
+    .assistencia-strip-item {
+      font-size: 0.82rem;
+      font-weight: 400;
+      letter-spacing: 0.06em;
+      color: var(--sand-warm);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .assistencia-strip-item svg {
+      width: 16px; height: 16px;
+      flex-shrink: 0;
+      color: var(--sand-warm);
+    }
+
+    /* =============================================
+       SHOWROOM  (light section)
+    ============================================= */
+    #showroom {
+      background: var(--cream-light);
+      color: var(--wine-deep);
+    }
+    .showroom-grid {
+      display: grid;
+      grid-template-columns: 55fr 45fr;
+      min-height: 580px;
+    }
+    .showroom-text {
+      padding: 6rem 4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .showroom-text .section-label { color: var(--wine-mid); }
+    .showroom-text h2 {
+      font-size: clamp(1.9rem, 2.8vw, 2.6rem);
+      color: var(--wine-deep);
+      margin-bottom: 1.25rem;
+    }
+    .showroom-text h2 em { color: var(--wine-mid); }
+    .showroom-text > p {
+      font-size: 0.95rem;
+      color: rgba(86, 28, 36, 0.7);
+      margin-bottom: 2rem;
+      max-width: 480px;
+      line-height: 1.75;
+    }
+    .showroom-highlights {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 2.5rem;
+    }
+    .showroom-highlight {
+      padding: 0.55rem 1.1rem;
+      border: 1px solid rgba(86, 28, 36, 0.2);
+      border-radius: 3px;
+      font-size: 0.78rem;
+      font-weight: 500;
+      color: var(--wine-deep);
+      letter-spacing: 0.04em;
+    }
+    .showroom-note {
+      margin-top: 0.75rem;
+      font-size: 0.78rem;
+      color: rgba(86, 28, 36, 0.5);
+      font-style: italic;
+    }
+    .showroom-image {
+      position: relative;
+      overflow: hidden;
+    }
+    .showroom-image img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: saturate(0.85) brightness(0.9);
+    }
+    .showroom-image::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(199, 183, 163, 0.2);
+    }
+    .showroom-float-badge {
+      position: absolute;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 2;
+      background: var(--wine-deep);
+      padding: 0.6rem 1.1rem;
+      border-radius: 3px;
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--cream-light);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+    /* <!-- REPLACE: add showroom address --> */
+
+    /* =============================================
+       BRANDS TICKER
+    ============================================= */
+    #brands {
+      background: var(--cream-light);
+      padding: 5rem 0;
+      overflow: hidden;
+    }
+    .brands-header {
+      text-align: center;
+      padding: 0 4rem 3rem;
+    }
+    .brands-header .section-label { color: var(--wine-mid); justify-content: center; display: block; }
+    .brands-header h2 {
+      font-size: clamp(1.6rem, 2.5vw, 2.2rem);
+      color: var(--wine-deep);
+    }
+    .ticker-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+    .ticker-track {
+      display: flex;
+      gap: 0;
+      animation: tickerScroll 28s linear infinite;
+    }
+    .ticker-track:hover { animation-play-state: paused; }
+    .ticker-item {
+      flex-shrink: 0;
+      padding: 1rem 3rem;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(86, 28, 36, 0.5);
+      border-right: 1px solid rgba(86, 28, 36, 0.12);
+      white-space: nowrap;
+      transition: color 0.3s ease;
+    }
+    .ticker-item:hover { color: var(--wine-deep); }
+    @keyframes tickerScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(-50%); }
+    }
+
+    /* =============================================
+       WHY DENTAL FUTURO
+    ============================================= */
+    #why {
+      background: var(--wine-deep);
+      padding: 7rem 4rem;
+    }
+    .why-grid {
+      max-width: 900px;
+      margin: 3.5rem auto 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+    }
+    .why-row {
+      display: grid;
+      grid-template-columns: 64px 1fr;
+      gap: 2rem;
+      padding: 3rem 0;
+      border-bottom: 1px solid rgba(199, 183, 163, 0.1);
+      align-items: start;
+    }
+    .why-row:last-child { border-bottom: none; }
+    .why-icon {
+      width: 48px; height: 48px;
+      background: var(--wine-mid);
+      border: 1px solid rgba(199, 183, 163, 0.15);
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--sand-warm);
+      flex-shrink: 0;
+    }
+    .why-icon svg { width: 22px; height: 22px; }
+    .why-row h3 {
+      font-size: 1.3rem;
+      color: var(--cream-light);
+      margin-bottom: 0.5rem;
+    }
+    .why-row p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.7;
+    }
+
+    /* =============================================
+       FEATURED PRODUCTS
+    ============================================= */
+    #featured {
+      background: var(--wine-deep);
+      padding: 7rem 4rem;
+      border-top: 1px solid rgba(199, 183, 163, 0.08);
+    }
+    .featured-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      max-width: 1200px;
+      margin: 3.5rem auto 0;
+    }
+    .product-item {
+      background: rgba(109, 41, 50, 0.35);
+      border: 1px solid rgba(199, 183, 163, 0.1);
+      border-radius: 4px;
+      padding: 1.75rem 1.5rem;
+      transition: border-color 0.3s ease, transform 0.3s var(--ease-out-expo),
+                  box-shadow 0.3s ease;
+      cursor: pointer;
+      position: relative;
+    }
+    .product-item:hover {
+      border-color: var(--sand-warm);
+      transform: scale(1.02);
+      box-shadow: 0 8px 32px rgba(86, 28, 36, 0.5);
+    }
+    .product-badge {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: var(--sand-warm);
+      color: var(--wine-deep);
+      font-size: 0.68rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      padding: 0.25rem 0.6rem;
+      border-radius: 2px;
+    }
+    .product-item h3 {
+      font-size: 1.15rem;
+      color: var(--cream-light);
+      margin-bottom: 1rem;
+      margin-top: 0.5rem;
+      line-height: 1.3;
+      padding-right: 3rem;
+    }
+    .product-price {
+      display: flex;
+      align-items: baseline;
+      gap: 0.75rem;
+      margin-bottom: 1.25rem;
+    }
+    .price-current {
+      font-family: var(--font-serif);
+      font-size: 1.6rem;
+      font-weight: 400;
+      color: var(--sand-warm);
+    }
+    .price-old {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      text-decoration: line-through;
+    }
+    .product-item .btn {
+      width: 100%;
+      justify-content: center;
+      padding: 0.7rem 1rem;
+      font-size: 0.75rem;
+    }
+
+    /* =============================================
+       TESTIMONIALS
+    ============================================= */
+    #testimonials {
+      position: relative;
+      padding: 7rem 4rem;
+      overflow: hidden;
+    }
+    .testimonials-bg {
+      position: absolute;
+      inset: 0;
+      background-image: url('https://images.unsplash.com/photo-1609840114035-3c981b782dfe?w=1400&q=70&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.3) saturate(0.4);
+    }
+    .testimonials-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(86, 28, 36, 0.82);
+    }
+    .testimonials-content {
+      position: relative;
+      z-index: 2;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3.5rem;
+    }
+    .testimonial-card {
+      background: rgba(86, 28, 36, 0.6);
+      border: 1px solid rgba(199, 183, 163, 0.15);
+      border-radius: 4px;
+      padding: 2rem;
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+    }
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 1rem;
+    }
+    .testimonial-stars svg {
+      width: 14px; height: 14px;
+      fill: var(--sand-warm);
+    }
+    .testimonial-card blockquote {
+      font-family: var(--font-serif);
+      font-size: 1.05rem;
+      font-style: italic;
+      font-weight: 300;
+      color: var(--cream-light);
+      line-height: 1.7;
+      margin-bottom: 1.5rem;
+    }
+    .testimonial-author strong {
+      display: block;
+      font-family: var(--font-sans);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--cream-light);
+    }
+    .testimonial-author span {
+      font-size: 0.78rem;
+      color: var(--sand-warm);
+    }
+
+    /* =============================================
+       CONTACT / CTA FINAL
+    ============================================= */
+    #contact {
+      background: var(--wine-deep);
+      padding: 8rem 4rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    #contact::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 200px;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    .contact-content { position: relative; z-index: 2; max-width: 700px; margin: 0 auto; }
+    #contact h2 {
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      color: var(--cream-light);
+      margin-bottom: 1.25rem;
+    }
+    #contact > .contact-content > p {
+      font-size: 1rem;
+      color: var(--text-muted);
+      margin-bottom: 3rem;
+    }
+    .contact-ctas {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-bottom: 4rem;
+    }
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem 3rem;
+      padding-top: 3rem;
+      border-top: 1px solid rgba(199, 183, 163, 0.12);
+    }
+    .contact-info-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .contact-info-item svg {
+      width: 16px; height: 16px;
+      color: var(--sand-warm);
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    #footer {
+      background: #1a0a0c;
+      padding: 4rem 4rem 2rem;
+    }
+    .footer-top {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      align-items: center;
+      gap: 2rem;
+      padding-bottom: 2rem;
+      border-bottom: 1px solid rgba(199, 183, 163, 0.08);
+      margin-bottom: 1.5rem;
+    }
+    .footer-logo {
+      font-family: var(--font-serif);
+      font-size: 1.4rem;
+      color: var(--cream-light);
+    }
+    .footer-logo span { color: var(--sand-warm); }
+    .footer-nav {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+    }
+    .footer-nav a {
+      font-size: 0.75rem;
+      font-weight: 400;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      transition: color 0.3s ease;
+    }
+    .footer-nav a:hover { color: var(--cream-light); }
+    .footer-social {
+      display: flex;
+      gap: 1rem;
+      justify-content: flex-end;
+    }
+    .footer-social a {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(199, 183, 163, 0.15);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.3s ease;
+    }
+    .footer-social a:hover {
+      border-color: var(--sand-warm);
+      color: var(--sand-warm);
+    }
+    .footer-social svg { width: 15px; height: 15px; fill: currentColor; }
+    .footer-bottom {
+      text-align: center;
+      font-size: 0.72rem;
+      color: rgba(199, 183, 163, 0.3);
+      letter-spacing: 0.08em;
+    }
+
+    /* =============================================
+       WHATSAPP FLOAT
+    ============================================= */
+    .whatsapp-float {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: var(--z-float);
+      width: 58px; height: 58px;
+      border-radius: 50%;
+      background: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(37, 211, 102, 0.35);
+      transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease;
+      /* <!-- REPLACE: add real WhatsApp number --> */
+    }
+    .whatsapp-float:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 28px rgba(37, 211, 102, 0.5);
+    }
+    .whatsapp-float svg { width: 26px; height: 26px; fill: white; }
+    .whatsapp-pulse {
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      border: 2px solid rgba(37, 211, 102, 0.45);
+      animation: waPulse 2.2s ease-out infinite;
+    }
+    @keyframes waPulse {
+      0% { transform: scale(1); opacity: 0.8; }
+      100% { transform: scale(1.5); opacity: 0; }
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1024px) {
+      #nav { padding: 1.25rem 2.5rem; }
+      #nav.scrolled { padding: 0.9rem 2.5rem; }
+      .hero-content { padding: 0 2.5rem; padding-top: 7rem; }
+      #about, #products, #assistencia, #why, #featured,
+      #testimonials, #contact, #footer { padding-left: 2.5rem; padding-right: 2.5rem; }
+      .products-grid { grid-template-columns: repeat(2, 1fr); }
+      .featured-grid { grid-template-columns: repeat(2, 1fr); }
+      .testimonials-grid { grid-template-columns: 1fr 1fr; }
+      .about-grid { grid-template-columns: 1fr; gap: 3rem; }
+      .owner-photo { aspect-ratio: 3/2; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2)::after { display: none; }
+      .radiologia-grid { grid-template-columns: 1fr; }
+      .radiologia-image { min-height: 380px; }
+      .radiologia-text { max-width: 100%; }
+      .showroom-grid { grid-template-columns: 1fr; }
+      .showroom-image { min-height: 340px; order: -1; }
+      .footer-top { grid-template-columns: 1fr; text-align: center; }
+      .footer-nav { flex-wrap: wrap; }
+      .footer-social { justify-content: center; }
+    }
+
+    @media (max-width: 768px) {
+      body { cursor: auto; }
+      .cursor-dot, .cursor-ring { display: none; }
+      #nav { padding: 1rem 1.5rem; }
+      #nav.scrolled { padding: 0.8rem 1.5rem; }
+      .nav-links { display: none; }
+      .hero-content { padding: 0 1.5rem; padding-top: 6rem; padding-bottom: 4rem; }
+      #hero h1 { font-size: 2.4rem; }
+      .hero-ctas { flex-direction: column; }
+      .hero-ctas .btn { width: 100%; justify-content: center; }
+      #stats { padding: 2.5rem 1.5rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .stat-item::after { display: none; }
+      #about, #products, #assistencia, #why, #featured,
+      #testimonials, #contact { padding: 5rem 1.5rem; }
+      .products-grid { grid-template-columns: 1fr; }
+      .assistencia-grid { grid-template-columns: 1fr; }
+      .featured-grid { grid-template-columns: 1fr 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .radiologia-text { padding: 4rem 1.5rem; }
+      .showroom-text { padding: 4rem 1.5rem; }
+      #brands { padding: 4rem 0; }
+      #footer { padding: 3rem 1.5rem 1.5rem; }
+      .footer-top { gap: 1.5rem; }
+      .contact-ctas { flex-direction: column; }
+      .contact-ctas .btn { width: 100%; justify-content: center; }
+      .why-grid { margin-top: 2.5rem; }
+    }
+
+    @media (max-width: 480px) {
+      .featured-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; }
+      #contact { padding: 4rem 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ============================================
+       CUSTOM CURSOR
+  ============================================= -->
+  <div class="cursor-dot" id="cursorDot" aria-hidden="true"></div>
+  <div class="cursor-ring" id="cursorRing" aria-hidden="true"></div>
+
+  <!-- ============================================
+       WHATSAPP FLOAT BUTTON
+       REPLACE: add real WhatsApp number
+  ============================================= -->
+  <a href="https://wa.me/5561999999999" target="_blank" rel="noopener" class="whatsapp-float" aria-label="Falar pelo WhatsApp">
+    <span class="whatsapp-pulse" aria-hidden="true"></span>
+    <svg viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+    </svg>
+  </a>
+
+  <!-- ============================================
+       NAV
+  ============================================= -->
+  <nav id="nav" role="navigation" aria-label="Navegação principal">
+    <a href="#" class="nav-logo">Dental <span>Futuro</span></a>
+    <div class="nav-right">
+      <ul class="nav-links" role="list">
+        <li><a href="#products">Produtos</a></li>
+        <li><a href="#radiologia">Radiologia</a></li>
+        <li><a href="#assistencia">Assistência</a></li>
+        <li><a href="#showroom">Showroom</a></li>
+        <li><a href="#contact">Contato</a></li>
+      </ul>
+      <!-- REPLACE: add real WhatsApp number -->
+      <a href="https://wa.me/5561999999999" target="_blank" rel="noopener" class="nav-whatsapp" aria-label="Falar no WhatsApp">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+        WhatsApp
+      </a>
+    </div>
+  </nav>
+
+  <!-- ============================================
+       HERO
+  ============================================= -->
+  <section id="hero" aria-label="Início">
+    <div class="hero-bg" id="heroBg" aria-hidden="true"></div>
+    <div class="hero-overlay" aria-hidden="true"></div>
+    <div class="hero-content">
+      <p class="hero-label reveal">DISTRIBUIDORA ODONTOLÓGICA · BRASÍLIA DF</p>
+      <h1 class="reveal reveal-delay-1">
+        Tudo que sua clínica precisa,
+        <em>entregue com excelência.</em>
+      </h1>
+      <p class="hero-sub reveal reveal-delay-2">
+        Materiais, instrumentais e equipamentos das melhores marcas do mercado. Atendimento especializado para dentistas, clínicas e acadêmicos.
+      </p>
+      <div class="hero-ctas reveal reveal-delay-3">
+        <a href="#products" class="btn btn-primary">Ver Produtos</a>
+        <!-- REPLACE: add real WhatsApp number -->
+        <a href="https://wa.me/5561999999999" target="_blank" rel="noopener" class="btn btn-ghost">
+          Falar no WhatsApp
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="scroll-indicator" aria-hidden="true">
+      <span>scroll</span>
+      <div class="scroll-arrow"></div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       STATS STRIP
+  ============================================= -->
+  <section id="stats" aria-label="Números">
+    <div class="stats-grid">
+      <div class="stat-item reveal">
+        <span class="stat-number" data-target="5000" data-prefix="+">0</span>
+        <span class="stat-label">Produtos disponíveis</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-1">
+        <span class="stat-number" data-target="10" data-prefix="+">0</span>
+        <span class="stat-label">Anos de mercado</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-2">
+        <span class="stat-number" data-static="Showroom">Showroom</span>
+        <span class="stat-label">Visite e experimente</span>
+      </div>
+      <div class="stat-item reveal reveal-delay-3">
+        <span class="stat-number" data-static="Assistência">Assistência</span>
+        <span class="stat-label">Técnica especializada</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       ABOUT / OWNER
+  ============================================= -->
+  <section id="about" aria-label="Sobre nós">
+    <div class="about-grid">
+      <div class="owner-photo-wrap reveal">
+        <div class="owner-photo" role="img" aria-label="Fundador da Dental Futuro" style="background-image: url('f5169a32-9175-4b8d-86e9-d606d77fe97e.png'); background-position: center top;">
+          <div class="owner-badge">
+            <div class="owner-badge-num">+10</div>
+            <div class="owner-badge-text">anos de experiência</div>
+          </div>
+        </div>
+      </div>
+      <div class="about-text">
+        <span class="section-label reveal">QUEM ESTÁ POR TRÁS DA DENTAL FUTURO</span>
+        <h2 class="reveal reveal-delay-1">Especialistas em <em>produtos odontológicos</em> que fazem a diferença</h2>
+        <p class="reveal reveal-delay-2">
+          A Dental Futuro nasceu da experiência de quem conhece profundamente o mercado odontológico de Brasília. Fundada por um especialista com mais de uma década no setor, a distribuidora foi criada com um único propósito: oferecer aos dentistas, clínicas e estudantes de odontologia um atendimento de excelência, produtos de qualidade comprovada e preços justos.
+        </p>
+        <p class="reveal reveal-delay-3">
+          Atendemos todas as especialidades — ortodontia, implantodontia, próteses, endodontia e radiologia odontológica — com um portfólio cuidadosamente selecionado das melhores marcas nacionais e importadas. Somos referência no DF tanto para o mercado clínico quanto para o acadêmico.
+        </p>
+        <ul class="about-bullets reveal reveal-delay-4">
+          <li>Entrega rápida em Brasília e região</li>
+          <li>Atendimento especializado com consultores técnicos</li>
+          <li>Marcas curadas para cada especialidade</li>
+        </ul>
+        <a href="#contact" class="about-link reveal reveal-delay-5">
+          Conheça nossa história
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       PRODUCT CATEGORIES
+  ============================================= -->
+  <section id="products" aria-label="Categorias de produtos">
+    <div class="section-header">
+      <span class="section-label reveal">CATÁLOGO</span>
+      <h2 class="reveal reveal-delay-1">Produtos para todas as <em>especialidades</em></h2>
+    </div>
+    <div class="products-grid">
+
+      <!-- Card 1: Ortodontia -->
+      <article class="product-card reveal">
+        <div class="product-card-bg" style="background-image: url('https://images.unsplash.com/photo-1559757175-0eb30cd8c063?w=400&q=75&auto=format&fit=crop')" aria-hidden="true"></div>
+        <div class="product-card-overlay" aria-hidden="true"></div>
+        <div class="product-card-content">
+          <h3>Ortodontia</h3>
+          <p>Bráquetes, fios, elásticos, bandas e acessórios das principais marcas nacionais e importadas.</p>
+          <a href="#contact" class="product-card-link">
+            Ver produtos
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 2: Radiologia -->
+      <article class="product-card reveal reveal-delay-1">
+        <div class="product-card-bg" style="background-image: url('https://images.unsplash.com/photo-1571772996211-2f02c9727629?w=400&q=75&auto=format&fit=crop')" aria-hidden="true"></div>
+        <div class="product-card-overlay" aria-hidden="true"></div>
+        <div class="product-card-badge">Especialidade</div>
+        <div class="product-card-content">
+          <h3>Radiologia</h3>
+          <p>Equipamentos de raio-X intraoral e panorâmico, sensores digitais, reveladores e posicionadores. Vendas e manutenção.</p>
+          <a href="#radiologia" class="product-card-link">
+            Ver produtos
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 3: Equipamentos -->
+      <article class="product-card reveal reveal-delay-2">
+        <div class="product-card-bg" style="background-image: url('https://images.unsplash.com/photo-1629909615184-74f495363b67?w=400&q=75&auto=format&fit=crop')" aria-hidden="true"></div>
+        <div class="product-card-overlay" aria-hidden="true"></div>
+        <div class="product-card-content">
+          <h3>Equipamentos</h3>
+          <p>Cadeiras odontológicas, compressores, fotopolimerizadores, autoclaves e unidades completas para consultório.</p>
+          <a href="#contact" class="product-card-link">
+            Ver produtos
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 4: Endodontia -->
+      <article class="product-card reveal reveal-delay-3">
+        <div class="product-card-bg" style="background-image: url('https://images.unsplash.com/photo-1612349317150-e413f6a5b16d?w=400&q=75&auto=format&fit=crop')" aria-hidden="true"></div>
+        <div class="product-card-overlay" aria-hidden="true"></div>
+        <div class="product-card-content">
+          <h3>Endodontia</h3>
+          <p>Limas rotatórias, localizadores apicais, motores endodônticos, cimentos e retratamento.</p>
+          <a href="#contact" class="product-card-link">
+            Ver produtos
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 5: Dentística -->
+      <article class="product-card reveal reveal-delay-1">
+        <div class="product-card-bg" style="background-image: url('https://images.unsplash.com/photo-1607613009820-a29f7bb81c04?w=400&q=75&auto=format&fit=crop')" aria-hidden="true"></div>
+        <div class="product-card-overlay" aria-hidden="true"></div>
+        <div class="product-card-content">
+          <h3>Dentística &amp; Restauração</h3>
+          <p>Resinas compostas, adesivos, ionômeros, fotopolimerizadores e kits de clareamento.</p>
+          <a href="#contact" class="product-card-link">
+            Ver produtos
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </article>
+
+      <!-- Card 6: Implantodontia -->
+      <article class="product-card reveal reveal-delay-2">
+        <div class="product-card-bg" style="background-image: url('https://images.unsplash.com/photo-1588776814546-1ffedbe2f5e0?w=400&q=75&auto=format&fit=crop')" aria-hidden="true"></div>
+        <div class="product-card-overlay" aria-hidden="true"></div>
+        <div class="product-card-content">
+          <h3>Implantodontia</h3>
+          <p>Implantes, pilares, membranas e instrumentais cirúrgicos de alta precisão das marcas líderes.</p>
+          <a href="#contact" class="product-card-link">
+            Ver produtos
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ============================================
+       RADIOLOGIA — DESTAQUE ESPECIAL (5B)
+  ============================================= -->
+  <section id="radiologia" aria-label="Radiologia Odontológica">
+    <div class="radiologia-grid">
+      <div class="radiologia-text">
+        <span class="section-label reveal">NOSSO DIFERENCIAL</span>
+        <h2 class="reveal reveal-delay-1">Equipamentos de radiologia odontológica com suporte <em>completo</em></h2>
+        <p class="reveal reveal-delay-2">
+          Somos especialistas em radiologia odontológica. Trabalhamos com os melhores equipamentos de raio-X intraoral, panorâmico e sensor digital do mercado — e oferecemos suporte técnico completo após a venda.
+        </p>
+        <ul class="radiologia-bullets reveal reveal-delay-3">
+          <li><span class="chev" aria-hidden="true">→</span> Raio-X intraoral e panorâmico</li>
+          <li><span class="chev" aria-hidden="true">→</span> Sensores digitais de alta resolução</li>
+          <li><span class="chev" aria-hidden="true">→</span> Calibração e manutenção preventiva</li>
+          <li><span class="chev" aria-hidden="true">→</span> Treinamento para toda a equipe</li>
+        </ul>
+        <!-- REPLACE: add real WhatsApp number -->
+        <a href="https://wa.me/5561999999999?text=Olá!%20Gostaria%20de%20solicitar%20uma%20demonstração%20de%20radiologia." target="_blank" rel="noopener" class="btn btn-primary reveal reveal-delay-4" style="align-self: flex-start;">
+          Solicitar demonstração
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+      </div>
+      <div class="radiologia-image">
+        <div class="radiologia-float-badge" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          Radiologia Especializada
+        </div>
+        <div class="radiologia-image-overlay" aria-hidden="true"></div>
+        <img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?w=900&q=80&auto=format&fit=crop" alt="Equipamento de radiologia odontológica" loading="lazy" width="900" height="600">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       ASSISTÊNCIA TÉCNICA (5C)
+  ============================================= -->
+  <section id="assistencia" aria-label="Assistência Técnica">
+    <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+      <span class="section-label reveal" style="text-align: center;">SUPORTE PÓS-VENDA</span>
+      <h2 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 3vw, 2.8rem); color: var(--cream-light); margin-bottom: 0.75rem;">Assistência técnica <em>especializada</em></h2>
+      <p class="reveal reveal-delay-2" style="font-size: 0.95rem; color: var(--text-muted); max-width: 560px; margin: 0 auto;">Sua clínica não para. Nossos técnicos certificados garantem que seus equipamentos funcionem sempre.</p>
+    </div>
+
+    <div class="assistencia-grid">
+
+      <div class="service-box reveal">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+        </svg>
+        <h3>Manutenção Preventiva</h3>
+        <p>Visitas programadas para calibração e revisão de equipamentos odontológicos e radiológicos.</p>
+      </div>
+
+      <div class="service-box reveal reveal-delay-1">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <h3>Reparo Emergencial</h3>
+        <p>Atendimento rápido para equipamentos com defeito. Diagnóstico no local e solução ágil.</p>
+      </div>
+
+      <div class="service-box reveal reveal-delay-2">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+        </svg>
+        <h3>Instalação Completa</h3>
+        <p>Instalamos, configuramos e testamos todos os equipamentos entregues. Consultório pronto para funcionar.</p>
+      </div>
+
+      <div class="service-box reveal reveal-delay-3">
+        <svg class="service-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+          <path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/>
+        </svg>
+        <h3>Treinamento da Equipe</h3>
+        <p>Capacitamos sua equipe para usar equipamentos radiológicos e odontológicos com segurança e eficiência.</p>
+      </div>
+
+    </div>
+
+    <div class="assistencia-strip reveal">
+      <div class="assistencia-strip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        Técnicos certificados
+      </div>
+      <div class="assistencia-strip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+        Atendimento rápido
+      </div>
+      <div class="assistencia-strip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Brasília e região
+      </div>
+      <div class="assistencia-strip-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        Orçamento sem compromisso
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       SHOWROOM (5D) — Light section
+  ============================================= -->
+  <section id="showroom" aria-label="Showroom Brasília">
+    <div class="showroom-grid">
+      <div class="showroom-text">
+        <span class="section-label reveal">SHOWROOM</span>
+        <h2 class="reveal reveal-delay-1">Venha ver, tocar e <em>testar</em> antes de comprar</h2>
+        <p class="reveal reveal-delay-2">
+          Temos um espaço exclusivo em Brasília onde você pode conhecer pessoalmente os equipamentos, ver demonstrações ao vivo e tirar todas as dúvidas com nossos consultores especializados. Não compre um equipamento de olhos fechados.
+        </p>
+        <div class="showroom-highlights reveal reveal-delay-3">
+          <span class="showroom-highlight">Equipamentos em exposição</span>
+          <span class="showroom-highlight">Demonstrações ao vivo</span>
+          <span class="showroom-highlight">Consultores no local</span>
+        </div>
+        <!-- REPLACE: add real WhatsApp number -->
+        <a href="https://wa.me/5561999999999?text=Olá!%20Gostaria%20de%20agendar%20uma%20visita%20ao%20showroom." target="_blank" rel="noopener" class="btn btn-wine reveal reveal-delay-4">
+          Agendar visita
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+        </a>
+        <p class="showroom-note reveal reveal-delay-5">Atendimento com hora marcada — sem filas</p>
+        <!-- REPLACE: add real address -->
+      </div>
+      <div class="showroom-image">
+        <div class="showroom-float-badge" aria-hidden="true">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          Visite em Brasília
+        </div>
+        <img src="https://images.unsplash.com/photo-1497366216548-37526070297c?w=900&q=80&auto=format&fit=crop" alt="Showroom Dental Futuro em Brasília" loading="lazy" width="900" height="600">
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       BRANDS TICKER
+  ============================================= -->
+  <section id="brands" aria-label="Marcas parceiras">
+    <div class="brands-header">
+      <span class="section-label reveal">MARCAS PARCEIRAS</span>
+      <h2 class="reveal reveal-delay-1" style="color: var(--wine-deep);">Trabalhamos com as melhores marcas do mercado</h2>
+    </div>
+    <div class="ticker-wrapper" aria-hidden="true">
+      <div class="ticker-track" id="tickerTrack">
+        <span class="ticker-item">3M</span>
+        <span class="ticker-item">FGM</span>
+        <span class="ticker-item">Dentsply Sirona</span>
+        <span class="ticker-item">Morelli</span>
+        <span class="ticker-item">Abzil</span>
+        <span class="ticker-item">Angelus</span>
+        <span class="ticker-item">SDI</span>
+        <span class="ticker-item">GC</span>
+        <span class="ticker-item">VOCO</span>
+        <span class="ticker-item">Coltene</span>
+        <span class="ticker-item">NSK</span>
+        <span class="ticker-item">W&amp;H</span>
+        <span class="ticker-item">KaVo</span>
+        <span class="ticker-item">Maquira</span>
+        <span class="ticker-item">Wilcos</span>
+        <!-- Duplicate for seamless loop -->
+        <span class="ticker-item">3M</span>
+        <span class="ticker-item">FGM</span>
+        <span class="ticker-item">Dentsply Sirona</span>
+        <span class="ticker-item">Morelli</span>
+        <span class="ticker-item">Abzil</span>
+        <span class="ticker-item">Angelus</span>
+        <span class="ticker-item">SDI</span>
+        <span class="ticker-item">GC</span>
+        <span class="ticker-item">VOCO</span>
+        <span class="ticker-item">Coltene</span>
+        <span class="ticker-item">NSK</span>
+        <span class="ticker-item">W&amp;H</span>
+        <span class="ticker-item">KaVo</span>
+        <span class="ticker-item">Maquira</span>
+        <span class="ticker-item">Wilcos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       WHY DENTAL FUTURO
+  ============================================= -->
+  <section id="why" aria-label="Por que Dental Futuro">
+    <div style="max-width: 900px; margin: 0 auto; text-align: center;">
+      <span class="section-label reveal" style="text-align:center;">NOSSOS DIFERENCIAIS</span>
+      <h2 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 3vw, 2.8rem); color: var(--cream-light);">Por que escolher a <em>Dental Futuro</em></h2>
+    </div>
+    <div class="why-grid" style="max-width: 900px; margin: 3.5rem auto 0;">
+
+      <div class="why-row reveal">
+        <div class="why-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <div>
+          <h3>Especialistas em radiologia odontológica</h3>
+          <p>Vendemos, instalamos e mantemos equipamentos de raio-X intraoral, panorâmico e sensores digitais. Do diagnóstico à entrega: suporte técnico completo.</p>
+        </div>
+      </div>
+
+      <div class="why-row reveal reveal-delay-1">
+        <div class="why-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+        </div>
+        <div>
+          <h3>Assistência técnica certificada</h3>
+          <p>Técnicos treinados e certificados para manutenção preventiva e corretiva de todos os equipamentos. Atendimento em Brasília e região.</p>
+        </div>
+      </div>
+
+      <div class="why-row reveal reveal-delay-2">
+        <div class="why-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
+        </div>
+        <div>
+          <h3>Showroom exclusivo em Brasília</h3>
+          <p>Visite nosso espaço, veja demonstrações ao vivo e teste os equipamentos antes de decidir. Consultores especializados à sua disposição.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ============================================
+       FEATURED PRODUCTS
+  ============================================= -->
+  <section id="featured" aria-label="Produtos em destaque">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <span class="section-label reveal">DESTAQUES DA SEMANA</span>
+      <h2 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 3vw, 2.8rem); color: var(--cream-light);">Produtos em <em>promoção</em></h2>
+    </div>
+    <div class="featured-grid">
+
+      <div class="product-item reveal">
+        <div class="product-badge">-25%</div>
+        <h3>Resina Composta FGM Vittra APS</h3>
+        <div class="product-price">
+          <span class="price-current">R$ 89,90</span>
+          <span class="price-old">R$ 119,00</span>
+        </div>
+        <!-- REPLACE: add real WhatsApp number -->
+        <a href="https://wa.me/5561999999999?text=Olá!%20Tenho%20interesse%20na%20Resina%20Composta%20FGM%20Vittra%20APS." target="_blank" rel="noopener" class="btn btn-ghost">Pedir via WhatsApp</a>
+      </div>
+
+      <div class="product-item reveal reveal-delay-1">
+        <div class="product-badge">-25%</div>
+        <h3>Kit Bráquetes Morelli Roth 0.022</h3>
+        <div class="product-price">
+          <span class="price-current">R$ 210,00</span>
+          <span class="price-old">R$ 280,00</span>
+        </div>
+        <a href="https://wa.me/5561999999999?text=Olá!%20Tenho%20interesse%20no%20Kit%20Bráquetes%20Morelli%20Roth." target="_blank" rel="noopener" class="btn btn-ghost">Pedir via WhatsApp</a>
+      </div>
+
+      <div class="product-item reveal reveal-delay-2">
+        <div class="product-badge">-19%</div>
+        <h3>Lima Rotatória WaveOne Gold</h3>
+        <div class="product-price">
+          <span class="price-current">R$ 340,00</span>
+          <span class="price-old">R$ 420,00</span>
+        </div>
+        <a href="https://wa.me/5561999999999?text=Olá!%20Tenho%20interesse%20na%20Lima%20Rotatória%20WaveOne%20Gold." target="_blank" rel="noopener" class="btn btn-ghost">Pedir via WhatsApp</a>
+      </div>
+
+      <div class="product-item reveal reveal-delay-3">
+        <div class="product-badge">-25%</div>
+        <h3>Cimento de Ionômero Vitro Fil</h3>
+        <div class="product-price">
+          <span class="price-current">R$ 67,50</span>
+          <span class="price-old">R$ 90,00</span>
+        </div>
+        <a href="https://wa.me/5561999999999?text=Olá!%20Tenho%20interesse%20no%20Cimento%20de%20Ionômero%20Vitro%20Fil." target="_blank" rel="noopener" class="btn btn-ghost">Pedir via WhatsApp</a>
+      </div>
+
+    </div>
+    <!-- ADD: real product photos when available -->
+  </section>
+
+  <!-- ============================================
+       TESTIMONIALS
+  ============================================= -->
+  <section id="testimonials" aria-label="Depoimentos">
+    <div class="testimonials-bg" aria-hidden="true"></div>
+    <div class="testimonials-overlay" aria-hidden="true"></div>
+    <div class="testimonials-content">
+      <span class="section-label reveal" style="text-align:center; display:block;">DEPOIMENTOS</span>
+      <h2 class="reveal reveal-delay-1" style="font-size: clamp(2rem, 3vw, 2.6rem); color: var(--cream-light); text-align:center; margin-bottom:0;">O que dizem nossos clientes</h2>
+      <div class="testimonials-grid">
+
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="testimonial-stars" aria-label="5 estrelas">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote>"Compro na Dental Futuro há 3 anos. Atendimento impecável, entrega rápida e preço justo. Minha dental de confiança em Brasília."</blockquote>
+          <div class="testimonial-author">
+            <strong>Dr. Rafael Cunha</strong>
+            <span>Implantodontista · Asa Norte</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars" aria-label="5 estrelas">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote>"Indico para os alunos da faculdade. Preço de mercado, variedade enorme e os consultores entendem do que vendem."</blockquote>
+          <div class="testimonial-author">
+            <strong>Profa. Dra. Márcia Leal</strong>
+            <span>UnB Odontologia</span>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-3">
+          <div class="testimonial-stars" aria-label="5 estrelas">
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+            <svg viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
+          </div>
+          <blockquote>"Recebi meu pedido no mesmo dia. Impossível achar isso em outro lugar em Brasília."</blockquote>
+          <div class="testimonial-author">
+            <strong>Dra. Fernanda Rocha</strong>
+            <span>Clínica Geral · Taguatinga</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       CONTACT / CTA FINAL
+  ============================================= -->
+  <section id="contact" aria-label="Contato">
+    <div class="contact-content">
+      <span class="section-label reveal" style="display:block; text-align:center;">FALE COM A GENTE</span>
+      <h2 class="reveal reveal-delay-1">Pronto para abastecer sua clínica?</h2>
+      <p class="reveal reveal-delay-2">Entre em contato pelo WhatsApp e receba atendimento personalizado de um consultor especializado.</p>
+      <div class="contact-ctas reveal reveal-delay-3">
+        <!-- REPLACE: add real WhatsApp number -->
+        <a href="https://wa.me/5561999999999" target="_blank" rel="noopener" class="btn btn-primary">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Abrir WhatsApp
+        </a>
+        <a href="#products" class="btn btn-ghost">Ver Catálogo Completo</a>
+      </div>
+      <div class="contact-info reveal reveal-delay-4">
+        <div class="contact-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <!-- REPLACE: add real address if desired -->
+          Brasília, DF
+        </div>
+        <div class="contact-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.28h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.85a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          <!-- REPLACE: add real WhatsApp number → (61) 9XXXX-XXXX -->
+          (61) 9XXXX-XXXX
+        </div>
+        <div class="contact-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+          <!-- REPLACE: Instagram link → https://instagram.com/dentalfuturo -->
+          @dentalfuturo
+        </div>
+        <div class="contact-info-item">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+          <!-- REPLACE: add real email address -->
+          contato@dentalfuturo.com.br
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================
+       FOOTER
+  ============================================= -->
+  <footer id="footer" role="contentinfo">
+    <div class="footer-top">
+      <div class="footer-logo">Dental <span>Futuro</span></div>
+      <nav class="footer-nav" aria-label="Links do rodapé">
+        <a href="#products">Produtos</a>
+        <a href="#radiologia">Radiologia</a>
+        <a href="#assistencia">Assistência</a>
+        <a href="#showroom">Showroom</a>
+        <a href="#contact">Contato</a>
+      </nav>
+      <div class="footer-social">
+        <!-- REPLACE: Instagram link → https://instagram.com/dentalfuturo -->
+        <a href="https://instagram.com/dentalfuturo" target="_blank" rel="noopener" aria-label="Instagram Dental Futuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+        <!-- REPLACE: add real WhatsApp number -->
+        <a href="https://wa.me/5561999999999" target="_blank" rel="noopener" aria-label="WhatsApp Dental Futuro">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      &copy; 2026 Dental Futuro &middot; Distribuidora Odontológica &middot; Brasília DF
+    </div>
+  </footer>
+
+  <!-- ============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+    'use strict';
+
+    // ── Detect mobile ──
+    const isMobile = /Mobi|Android/i.test(navigator.userAgent) || window.innerWidth < 768;
+    if (isMobile) document.body.classList.add('mobile-device');
+
+    // ── Custom Cursor (desktop only) ──
+    if (!isMobile) {
+      const dot  = document.getElementById('cursorDot');
+      const ring = document.getElementById('cursorRing');
+      let mouseX = 0, mouseY = 0;
+      let ringX  = 0, ringY  = 0;
+      let rafId;
+
+      document.addEventListener('mousemove', e => {
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        dot.style.left = mouseX + 'px';
+        dot.style.top  = mouseY + 'px';
+      });
+
+      function animateRing() {
+        ringX += (mouseX - ringX) * 0.14;
+        ringY += (mouseY - ringY) * 0.14;
+        ring.style.left = ringX + 'px';
+        ring.style.top  = ringY + 'px';
+        rafId = requestAnimationFrame(animateRing);
+      }
+      animateRing();
+
+      document.querySelectorAll('a, button, .product-card, .service-box, .product-item').forEach(el => {
+        el.addEventListener('mouseenter', () => ring.classList.add('hovered'));
+        el.addEventListener('mouseleave', () => ring.classList.remove('hovered'));
+      });
+
+      document.addEventListener('mouseleave', () => {
+        dot.style.opacity  = '0';
+        ring.style.opacity = '0';
+      });
+      document.addEventListener('mouseenter', () => {
+        dot.style.opacity  = '1';
+        ring.style.opacity = '1';
+      });
+    }
+
+    // ── Nav scroll behavior ──
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 80);
+    }, { passive: true });
+
+    // ── Parallax Hero (desktop only) ──
+    if (!isMobile) {
+      const heroBg = document.getElementById('heroBg');
+      window.addEventListener('scroll', () => {
+        const y = window.scrollY;
+        heroBg.style.transform = `translateY(${y * 0.35}px)`;
+      }, { passive: true });
+    }
+
+    // ── Scroll Reveal ──
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // ── Stats Counter Animation ──
+    const counterEls = document.querySelectorAll('.stat-number[data-target]');
+    const counterObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        const el     = entry.target;
+        const target = parseInt(el.dataset.target, 10);
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const duration = 1800;
+        const start  = performance.now();
+
+        function tick(now) {
+          const elapsed  = now - start;
+          const progress = Math.min(elapsed / duration, 1);
+          // ease out expo
+          const ease = progress === 1 ? 1 : 1 - Math.pow(2, -10 * progress);
+          const value = Math.floor(ease * target);
+          el.textContent = prefix + value.toLocaleString('pt-BR') + suffix;
+          if (progress < 1) requestAnimationFrame(tick);
+          else el.textContent = prefix + target.toLocaleString('pt-BR') + suffix;
+        }
+        requestAnimationFrame(tick);
+        counterObserver.unobserve(el);
+      });
+    }, { threshold: 0.5 });
+    counterEls.forEach(el => counterObserver.observe(el));
+
+    // ── Smooth anchor scroll ──
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', e => {
+        const target = document.querySelector(anchor.getAttribute('href'));
+        if (!target) return;
+        e.preventDefault();
+        const offset = 80;
+        const top = target.getBoundingClientRect().top + window.scrollY - offset;
+        window.scrollTo({ top, behavior: 'smooth' });
+      });
+    });
+
+    // ── Trigger reveals already in view on load ──
+    window.addEventListener('load', () => {
+      revealEls.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight * 0.9) {
+          el.classList.add('visible');
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>
